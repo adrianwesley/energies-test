@@ -1,0 +1,17 @@
+.form-inputs {
+	display:none;
+}
+.canvas {
+	border:1px solid #000000;
+	width: 100% !important;
+}
+.canvas-container {
+	position: relative !important;
+	width: 100% !important;
+}
+.func-add-objects {
+	margin-top: 18px;
+}
+.func-add-objects .form-inputs {
+	margin-top: 18px;
+}
