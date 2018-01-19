@@ -1,0 +1,23 @@
+PERGUNTA 1: Imaginando que a tabela de produtos teria 10.000 registros antes da implementação. Qual a melhor ou qual abordagem tomaria com os produtos ja registrados em banco. Faria cópia dos produtos? Em qual categoria deixaria os produtos? Comente suas ações e decisões em relação a essa implementação e possível implantação.
+
+RESPOSTA 1:
+Seria muito importante a realização de um backup do banco, já que iríamos mexer diretamente com os dados.
+Para a aquisição das categorias/produtos, tentaria ver se na nomenclatura dos produtos haveria algo referenciando a possível categoria que ele pertence, um padrão, como por exemplo um produto com SKU 1855 com o nome 'Sunga M Vermelha' iria pertencer a categoria 'Sunga'.
+Se houvesse algo referenciado e pudesse aplicar a solução acima na maioria dos produtos, criaria um script para fazer essa alteração em massa no banco.
+Se não houvesse, conversaria com o cliente para ver se tinha alguma planilha que servirá como indexação dos produtos/categoria.
+Meu foco é conseguir algo para poupar trabalho e satisfazer o cliente, achando uma solução rápida e inteligente.
+Se não tivesse jeito, moveria todos os produtos para uma categoria pai chamada 'Produtos' e ia categorizando aos poucos.
+Se possível realizar o teste do script primeiro em um servidor teste (cópia do produção) para ter certeza que não iremos ter resultados indesejáveis. 
+PERGUNTA 2: Comente o que poderia ser melhorado na página do projeto para que a consulta de 10.000 produtos não atrapalhe o funcionamento da mesma.
+
+RESPOSTA 2: 
+Front-end:
+- Renderizar essa quantidade de itens de uma vez só na web é um problema. A mudança de estado do DOM é desorganizada e manter o controle do estado anterior é difícil, com isso foi criado o VIRTUAL DOM. Nada mais é do que virtualizar o DOM sem recriar todos os nós.
+- Utilizar o infinity scroll é muito viável para exibir pequenas quantidades de produtos. Em vez de renderizar os 10.000 ao mesmo tempo, renderiza 10 na tela e enquanto vai rolando o scroll, renderiza mais 10 até chegar no total.
+- Utilizar paginação quanto no front-end quanto no back-end é muito interessante também. Fará exatamente o que a solução acima faz, porém do lado do servidor também.
+- Caso há imagens nos produtos, seria interessante aplicar um compress para diminuir o tamanho dela.
+- Utilizar boas práticas.
+- Por último, realizar testes de desempenho no site, sempre há mais uma forma de melhorar o desempenho.
+
+Back-end:
+- Do lado do servidor, podemos trabalhar com as queries do sql com algumas modificações. Poderíamos selecionar apenas os campos que vamos utilizar, não retornar 20 campos sendo que vamos utilizar apenas 2. Utilizar index melhora muito a performance, já que saberá exatamente onde ir por causa da indexação. Para aplicações grandes e inúmeros itens na tabela, podemos utilizar as tabelas temporárias, por ser facilmente indexada.
